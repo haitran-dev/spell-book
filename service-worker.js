@@ -7,14 +7,17 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
-	fetch(`https://dictionary.cambridge.org/dictionary/english/query`, {
+	const word = info.selectionText;
+
+	fetch(`https://dictionary.cambridge.org/dictionary/english/${word}`, {
 		method: 'GET',
 		credentials: 'omit',
 	})
 		.then((response) => response.text())
-		.then((text) => {
-			console.log({ text });
+		.then((sourceContent) => {
+			chrome.tabs.sendMessage(tab.id, {
+				action: 'select',
+				data: { word, sourceContent },
+			});
 		});
-
-	chrome.tabs.sendMessage(tab.id, { action: 'select', selectionText: info.selectionText });
 });
