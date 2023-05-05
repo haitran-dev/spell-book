@@ -25,10 +25,16 @@
 	},
 	"content_scripts": [
 		{
-			"js": ["content.js"],
-			"matches": ["https://*/*"]
+			"matches": ["http://*/*", "https://*/*"],
+			"css": ["content-style.css"],
+			"js": ["content.js"]
 		}
 	],
-	"permissions": ["contextMenus", "storage", "tabs", "scripting", "activeTab"],
-	"host_permissions": ["https://*/*"]
+	"permissions": ["contextMenus", "storage", "tabs"],
+	"web_accessible_resources": [
+		{
+			"resources": ["iframe.html"],
+			"matches": ["http://*/*", "https://*/*"]
+		}
+	]
 }

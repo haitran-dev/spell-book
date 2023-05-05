@@ -1,6 +1,7 @@
 console.log('content script');
 
 const CAMBRIDGE_DOMAIN = 'https://dictionary.cambridge.org';
+const ROOT_ID = 'visual-english-root';
 
 const extractData = (sourceContent) => {
 	const dom = new DOMParser().parseFromString(sourceContent, 'text/html');
@@ -63,12 +64,6 @@ const extractData = (sourceContent) => {
 		};
 	}
 
-	console.log({
-		type,
-		audio,
-		meanings,
-	});
-
 	return {
 		type,
 		audio,
@@ -76,12 +71,28 @@ const extractData = (sourceContent) => {
 	};
 };
 
+const initSideCompanion = () => {
+	// let root = document.getElementById(ROOT_ID);
+	// if (!root) {
+	// 	root = document.createElement('div');
+	// 	root.id = ROOT_ID;
+	// 	document.body.appendChild(root);
+	// }
+	// const buffer = document.createElement('div');
+	// buffer.className = 'visual-english-root'
+
+	const iframe = document.createElement('iframe');
+	iframe.id = ROOT_ID;
+	iframe.src = chrome.runtime.getURL('iframe.html');
+	document.body.appendChild(iframe);
+};
+
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	if (request.action === 'select') {
 		let { word, sourceContent } = request.data;
 
 		const data = extractData(sourceContent);
-		// script
-		console.log({ word, data });
+
+		initSideCompanion(word, data);
 	}
 });

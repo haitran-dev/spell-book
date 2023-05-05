@@ -1,0 +1,37 @@
+#visual-english-root {
+	--main: #8833eebb;
+
+	position: fixed;
+	z-index: 999;
+	width: 375px;
+	height: 100%;
+	background: #fff;
+	top: 0;
+	right: 0;
+	box-shadow: 5px 0px 15px 5px var(--main);
+	animation: slideToLeft 0.3s ease-out;
+}
+
+#visual-english-root.hidden {
+	animation: slideToLeft 0.3s ease-in;
+}
+
+@keyframes slideToLeft {
+	0% {
+		transform: translateX(100%);
+	}
+
+	100% {
+		transform: translateX(0);
+	}
+}
+
+@keyframes slideToRight {
+	0% {
+		transform: translateX(0%);
+	}
+
+	100% {
+		transform: translateX(100%);
+	}
+}
