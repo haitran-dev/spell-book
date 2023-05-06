@@ -1,6 +1,7 @@
 import React from 'react';
 
-const Icon = ({ svg, ...delegated }) => {
+const Icon = ({ svg, svgW = 24, svgH = svgW, svgClassName, ...delegated }) => {
+	const Comp = svg;
 	return (
 		<button
 			style={{
@@ -12,7 +13,7 @@ const Icon = ({ svg, ...delegated }) => {
 			}}
 			{...delegated}
 		>
-			{svg}
+			<Comp width={svgW} height={svgH} className={svgClassName} />
 		</button>
 	);
 };

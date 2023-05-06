@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { DOMElement } from 'react';
 import ReactDOM from 'react-dom/client';
 import '../assets/tailwind.css';
 import './root.css';
 import App from './App';
 
-const CAMBRIDGE_DOMAIN = 'https://dictionary.cambridge.org';
+export const CAMBRIDGE_DOMAIN = 'https://dictionary.cambridge.org';
 const ROOT_ID = 'visual-english-ext';
 let currentWords = [];
 
@@ -93,16 +93,22 @@ const extractData = (sourceContent: string, word: string) => {
 	};
 };
 
-const handlePopTab = () => {
+const handlePopTab = (root, container) => {
 	currentWords.pop();
+	setTimeout(() => {
+		root.unmount();
+
+		if (currentWords.length === 0) {
+			container.style.transform = 'translateX(101%)';
+		}
+	}, 300);
 };
 
 const handleClear = (node) => {
 	currentWords = [];
-	node.style.animation = 'slideOut 300ms ease-in';
+	node.style.transform = 'translateX(101%)';
 	setTimeout(() => {
 		node.replaceChildren();
-		node.style.animation = null;
 	}, 300);
 };
 
@@ -115,13 +121,18 @@ const initApp = (data: object) => {
 		document.body.appendChild(container);
 	}
 
+	container.style.transform = 'translateX(0%)';
 	const tab = document.createElement('div');
 	container.appendChild(tab);
 	const root = ReactDOM.createRoot(tab);
 
 	data &&
 		root.render(
-			<App data={data} onGoBack={handlePopTab} onClose={() => handleClear(container)} />
+			<App
+				data={data}
+				onGoBack={() => handlePopTab(root, container)}
+				onClose={() => handleClear(container)}
+			/>
 		);
 };
 
