@@ -2,8 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-	height: 400px;
-	width: 400px;
-	background-color: blueviolet;
+@layer components {
+	.bg-blur {
+		@apply bg-[hsl(230,10%,97%,0.4)] backdrop-blur-[30px];
+	}
+
+	.flex-center {
+		@apply flex align-middle justify-center;
+	}
+
+	.flex-column {
+		@apply flex flex-col;
+	}
+
+	.border-single {
+		@apply border border-solid;
+	}
 }

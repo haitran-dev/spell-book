@@ -15,6 +15,8 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 	})
 		.then((response) => response.text())
 		.then((sourceContent) => {
+			console.log({ sourceContent });
+
 			chrome.tabs.sendMessage(tab.id, {
 				action: 'select',
 				data: { word, sourceContent },

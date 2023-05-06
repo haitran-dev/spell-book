@@ -1,0 +1,33 @@
+#visual-english-ext {
+	position: fixed;
+	right: 0;
+	top: 0;
+	z-index: 9999;
+	height: 100vh;
+	width: 375px;
+}
+
+#visual-english-ext-scrollbar {
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+#visual-english-ext-scrollbar::-webkit-scrollbar {
+	width: 4px;
+	background-color: transparent;
+}
+
+#visual-english-ext-scrollbar::-webkit-scrollbar-thumb {
+	background: #727272;
+	border-radius: 1px;
+}
+
+@keyframes slideOut {
+	0% {
+		transform: translateX(0%);
+	}
+
+	100% {
+		transform: translateX(101%);
+	}
+}

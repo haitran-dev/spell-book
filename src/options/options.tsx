@@ -2,16 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import '../assets/tailwind.css';
 
-const Popup = () => (
-	<div className='p-2 flex gap-2 min-w-[100px]'>
-		<img className='w-10' src='icon.png' alt='' />
-		<p className='font-semibold'>Visual english</p>
-	</div>
-);
+const app = <h1 className='text-[#fff346]'>Option</h1>;
 
 const container = document.createElement('div');
-container.id = 'popup-root';
 document.body.appendChild(container);
 const root = ReactDOM.createRoot(container);
 
-root.render(<Popup />);
+root.render(app);
