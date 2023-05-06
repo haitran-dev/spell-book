@@ -3,7 +3,9 @@ import { Transition } from 'react-transition-group';
 import ArrowLeftSVG from '../svgs/arrow-left.svg';
 import VolumeSVG from '../svgs/volume.svg';
 import CloseSVG from '../svgs/close.svg';
+import LinkSVG from '../svgs/link.svg';
 import Icon from '../ui/icon';
+import { CAMBRIDGE_DOMAIN } from '.';
 
 const duration = 300;
 
@@ -22,9 +24,8 @@ const App = ({ data, onClose, onGoBack }) => {
 	const [isOpen, setOpen] = React.useState(false);
 	const { type, audios, meanings } = data;
 
-	console.log({ data });
-
 	useEffect(() => {
+		// trigger animation
 		setOpen(true);
 	}, []);
 
@@ -65,17 +66,26 @@ const App = ({ data, onClose, onGoBack }) => {
 				>
 					<Icon
 						onClick={handleCloseTab}
-						className='absolute top-1 left-1 border border-solid border-line rounded bg-white/30 hover:bg-white duration-200'
-						svg={<ArrowLeftSVG />}
+						className='absolute top-1 left-1 border border-solid border-line border-opacity-30 rounded bg-white/30 hover:bg-white duration-200'
+						svg={ArrowLeftSVG}
 						title='Back'
 					/>
 					<Icon
 						onClick={handleCloseAllTabs}
-						className='absolute top-1 right-1 text-danger border border-solid border-line rounded bg-white/30 hover:bg-white duration-200'
-						svg={<CloseSVG />}
+						className='absolute top-1 right-1 text-danger border border-solid border-line border-opacity-30 rounded bg-white/30 hover:bg-white duration-200'
+						svg={CloseSVG}
 						title='Close all tabs'
 					/>
-					<p className='text-3xl font-bold'>{data.title}</p>
+					<div className='flex gap-1 items-center'>
+						<p className='text-3xl font-bold'>{data.title}</p>
+						<a
+							href={`${CAMBRIDGE_DOMAIN}/dictionary/english/${data.title}`}
+							target='_blank'
+							rel='noopener noreferrer'
+						>
+							<Icon svg={LinkSVG} svgW={16} title='Original source' />
+						</a>
+					</div>
 					<p className='text-sm font-semibold italic'>{type}</p>
 					<div className='flex gap-4'>
 						{audios?.map((audio) => {
@@ -89,7 +99,7 @@ const App = ({ data, onClose, onGoBack }) => {
 										<p className='font-semibold uppercase'>{audioType}</p>
 										<button onClick={() => handlePlayAudio(audioType)}>
 											<Icon
-												svg={<VolumeSVG />}
+												svg={VolumeSVG}
 												title={`${audioType.toUpperCase()} Voice`}
 											/>
 										</button>
@@ -147,7 +157,7 @@ const MeaningBlock = ({ meaning, isFirstItem }) => (
 		<p className='text-[18px] font-semibold'>{meaning.text}</p>
 		<ul className='list-disc flex-column gap-1'>
 			{meaning.examples.map((example, index) => (
-				<li key={index} className='text-[15px] ml-4 my-0'>
+				<li key={index} className='text-[15px] ml-5 my-0'>
 					{example}
 				</li>
 			))}
