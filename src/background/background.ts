@@ -1,7 +1,7 @@
 chrome.runtime.onInstalled.addListener(() => {
 	chrome.contextMenus.create({
 		id: 'selection',
-		title: 'Magic dictionary',
+		title: 'Cast spell on "%s"',
 		contexts: ['selection'],
 	});
 });

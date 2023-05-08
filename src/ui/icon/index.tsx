@@ -1,6 +1,13 @@
 import React from 'react';
 
-const Icon = ({ svg, svgW = 24, svgH = svgW, svgClassName, ...delegated }) => {
+type IconProps = {
+	svg: React.ElementType;
+	svgW?: number;
+	svgH?: number;
+	svgClassName?: string;
+} & React.HTMLAttributes<unknown>;
+
+const Icon = ({ svg, svgW = 24, svgH = svgW, svgClassName, ...delegated }: IconProps) => {
 	const Comp = svg;
 	return (
 		<button

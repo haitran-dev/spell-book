@@ -1,11 +1,11 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Transition } from 'react-transition-group';
+import { CAMBRIDGE_DOMAIN } from '../constant';
 import ArrowLeftSVG from '../svgs/arrow-left.svg';
-import VolumeSVG from '../svgs/volume.svg';
 import CloseSVG from '../svgs/close.svg';
 import LinkSVG from '../svgs/link.svg';
+import VolumeSVG from '../svgs/volume.svg';
 import Icon from '../ui/icon';
-import { CAMBRIDGE_DOMAIN } from '.';
 
 const duration = 300;
 
@@ -19,7 +19,7 @@ const transitionStyles = {
 	entered: { transform: 'translateX(0)' },
 };
 
-const App = ({ data, onClose, onGoBack }) => {
+const App = ({ data, onClose, onGoBack, isFirstChild }) => {
 	const audiosRef = React.useRef(null);
 	const [isOpen, setOpen] = React.useState(false);
 	const { type, audios, meanings } = data;
@@ -64,12 +64,14 @@ const App = ({ data, onClose, onGoBack }) => {
 					}}
 					className='h-full text-dark-txt absolute inset-0 bg-blur px-3 pt-10 pb-2 flex-column gap-2 border-l border-solid border-line'
 				>
-					<Icon
-						onClick={handleCloseTab}
-						className='absolute top-1 left-1 border border-solid border-line border-opacity-30 rounded bg-white/30 hover:bg-white duration-200'
-						svg={ArrowLeftSVG}
-						title='Back'
-					/>
+					{!isFirstChild ? (
+						<Icon
+							onClick={handleCloseTab}
+							className='absolute top-1 left-1 border border-solid border-line border-opacity-30 rounded bg-white/30 hover:bg-white duration-200'
+							svg={ArrowLeftSVG}
+							title='Back'
+						/>
+					) : null}
 					<Icon
 						onClick={handleCloseAllTabs}
 						className='absolute top-1 right-1 text-danger border border-solid border-line border-opacity-30 rounded bg-white/30 hover:bg-white duration-200'
@@ -97,12 +99,11 @@ const App = ({ data, onClose, onGoBack }) => {
 								<React.Fragment key={audioType}>
 									<div className='flex gap-1 items-center text-[15px]'>
 										<p className='font-semibold uppercase'>{audioType}</p>
-										<button onClick={() => handlePlayAudio(audioType)}>
-											<Icon
-												svg={VolumeSVG}
-												title={`${audioType.toUpperCase()} Voice`}
-											/>
-										</button>
+										<Icon
+											onClick={() => handlePlayAudio(audioType)}
+											svg={VolumeSVG}
+											title={`${audioType.toUpperCase()} Voice`}
+										/>
 									</div>
 									<audio
 										ref={(node) => {
@@ -157,7 +158,7 @@ const MeaningBlock = ({ meaning, isFirstItem }) => (
 		<p className='text-[18px] font-semibold'>{meaning.text}</p>
 		<ul className='list-disc flex-column gap-1'>
 			{meaning.examples.map((example, index) => (
-				<li key={index} className='text-[15px] ml-5 my-0'>
+				<li key={index} className='text-[15px] ml-8 my-0'>
 					{example}
 				</li>
 			))}

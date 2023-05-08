@@ -5,7 +5,7 @@ import '../assets/tailwind.css';
 const Popup = () => (
 	<div className='p-2 flex gap-2 min-w-[100px]'>
 		<img className='w-10' src='icon.png' alt='' />
-		<p className='font-semibold'>Visual english</p>
+		<p className='font-semibold'>Spell Book</p>
 	</div>
 );
 
