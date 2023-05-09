@@ -14,4 +14,4 @@ container.id = 'popup-root';
 document.body.appendChild(container);
 const root = ReactDOM.createRoot(container);
 
-root.render(<Popup />);
+root.render(<Popup />)
