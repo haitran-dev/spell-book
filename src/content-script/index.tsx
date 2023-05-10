@@ -1,9 +1,9 @@
-import React, { DOMElement } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import '../assets/tailwind.css';
-import './root.css';
-import App from './App';
 import { extractData } from '../helpers/data-collect';
+import App from './App';
+import './root.css';
 
 const ROOT_ID = 'visual-english-ext';
 let currentWords = [];

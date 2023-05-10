@@ -5,7 +5,7 @@ type IconProps = {
 	svgW?: number;
 	svgH?: number;
 	svgClassName?: string;
-} & React.HTMLAttributes<unknown>;
+} & React.ComponentProps<'button'>;
 
 const Icon = ({ svg, svgW = 24, svgH = svgW, svgClassName, ...delegated }: IconProps) => {
 	const Comp = svg;

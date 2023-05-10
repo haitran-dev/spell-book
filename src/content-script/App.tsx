@@ -6,6 +6,7 @@ import CloseSVG from '../svgs/close.svg';
 import LinkSVG from '../svgs/link.svg';
 import VolumeSVG from '../svgs/volume.svg';
 import Icon from '../ui/icon';
+import { Meaning } from '../types/custom';
 
 const duration = 300;
 
@@ -46,7 +47,7 @@ const App = ({ data, onClose, onGoBack, isFirstChild }) => {
 		onClose();
 	};
 
-	const handlePlayAudio = (type) => {
+	const handlePlayAudio = (type: string) => {
 		const audioEle = audiosRef.current.get(type);
 
 		if (!audioEle) return;
@@ -150,7 +151,12 @@ const App = ({ data, onClose, onGoBack, isFirstChild }) => {
 	);
 };
 
-const MeaningBlock = ({ meaning, isFirstItem }) => (
+type MeaningBlockProps = {
+	meaning: Meaning;
+	isFirstItem: boolean;
+};
+
+const MeaningBlock: React.FC<MeaningBlockProps> = ({ meaning, isFirstItem }) => (
 	<div className='space-y-2 mb-2'>
 		{!isFirstItem && (
 			<div className='h-[1px] w-[calc(100% + 12px)] -ml-[6px] -mr-[6px] bg-line' />
