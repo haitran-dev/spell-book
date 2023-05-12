@@ -22,7 +22,7 @@ const transitionStyles = {
 
 const App = ({ data, onClose, onGoBack, isFirstChild }) => {
 	const audiosRef = React.useRef(null);
-	const [isOpen, setOpen] = React.useState(false);
+	const [isOpen, setOpen] = React.useState<boolean>(false);
 	const { type, audios, meanings } = data;
 
 	useEffect(() => {

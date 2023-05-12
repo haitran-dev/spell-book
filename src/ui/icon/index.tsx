@@ -7,8 +7,7 @@ type IconProps = {
 	svgClassName?: string;
 } & React.ComponentProps<'button'>;
 
-const Icon = ({ svg, svgW = 24, svgH = svgW, svgClassName, ...delegated }: IconProps) => {
-	const Comp = svg;
+const Icon = ({ svg: Svg, svgW = 24, svgH = svgW, svgClassName, ...delegated }: IconProps) => {
 	return (
 		<button
 			style={{
@@ -20,7 +19,7 @@ const Icon = ({ svg, svgW = 24, svgH = svgW, svgClassName, ...delegated }: IconP
 			}}
 			{...delegated}
 		>
-			<Comp width={svgW} height={svgH} className={svgClassName} />
+			<Svg width={svgW} height={svgH} className={svgClassName} />
 		</button>
 	);
 };

@@ -79,7 +79,7 @@ module.exports = {
 	optimization: {
 		splitChunks: {
 			chunks(chunk) {
-				//  content script dom don't need spit chunk
+				//  content script dom don't need split chunk
 				return chunk.name !== 'contentScript';
 			},
 		},
