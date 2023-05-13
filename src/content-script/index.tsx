@@ -43,6 +43,7 @@ const initApp = (data: object) => {
 
 	root.render(
 		<App
+			root={container}
 			data={data}
 			onGoBack={() => handlePopTab(root, container)}
 			onClose={() => handleClear(container)}
