@@ -20,14 +20,14 @@ const transitionStyles = {
 	entered: { transform: 'translateX(0)' },
 };
 
-const FontContext = React.createContext(16);
+const FontContext = React.createContext(null);
 
 const App = ({ root, data, onClose, onGoBack, isFirstChild }) => {
 	const audiosRef = React.useRef(null);
 	const [isOpen, setOpen] = React.useState<boolean>(false);
 	const { type, audios, meanings } = data;
 	const rootRef = React.useRef<HTMLElement>(root);
-	const rootFontSize = React.useState<number>(() => {
+	const [rootFontSize, setRootFontSize] = React.useState<number>(() => {
 		return +window.getComputedStyle(rootRef.current).getPropertyValue('--root-size') || 16;
 	});
 
@@ -61,8 +61,13 @@ const App = ({ root, data, onClose, onGoBack, isFirstChild }) => {
 		audioEle.play();
 	};
 
+	const handleChangeFontSize = () => {
+		console.log({ setProperty: rootRef.current.style.setProperty });
+		setRootFontSize(12);
+	};
+
 	return (
-		<FontContext.Provider value={rootFontSize}>
+		<FontContext.Provider value={{ rootFontSize, setRootFontSize }}>
 			<Transition in={isOpen} timeout={duration}>
 				{(state) => (
 					<div
@@ -80,6 +85,12 @@ const App = ({ root, data, onClose, onGoBack, isFirstChild }) => {
 								title='Back'
 							/>
 						) : null}
+						<Icon
+							onClick={handleChangeFontSize}
+							className='absolute top-1 right-10 text-danger border border-solid border-line border-opacity-30 rounded bg-white/30 hover:bg-white duration-200'
+							svg={LinkSVG}
+							title='Setting'
+						/>
 						<Icon
 							onClick={handleCloseAllTabs}
 							className='absolute top-1 right-1 text-danger border border-solid border-line border-opacity-30 rounded bg-white/30 hover:bg-white duration-200'
@@ -183,27 +194,36 @@ type MeaningBlockProps = {
 	isFirstItem: boolean;
 };
 
-const MeaningBlock: React.FC<MeaningBlockProps> = ({ meaning, isFirstItem }) => (
-	<div className='space-y-2 mb-2'>
-		{!isFirstItem && (
-			<div className='h-[1px] w-[calc(100% + 12px)] -ml-[6px] -mr-[6px] bg-line' />
-		)}
-		<p
-			style={{
-				fontSize: `${1.075 * +rootFontSize}px`,
-			}}
-			className='font-semibold'
-		>
-			{meaning.text}
-		</p>
-		<ul className='list-disc flex-column gap-1'>
-			{meaning.examples.map((example, index) => (
-				<li key={index} className='text-[15px] ml-8 my-0'>
-					{example}
-				</li>
-			))}
-		</ul>
-	</div>
-);
+const MeaningBlock: React.FC<MeaningBlockProps> = ({ meaning, isFirstItem }) => {
+	const { rootFontSize } = React.useContext(FontContext);
+
+	return (
+		<div className='space-y-2 mb-2'>
+			{!isFirstItem && (
+				<div className='h-[1px] w-[calc(100% + 12px)] -ml-[6px] -mr-[6px] bg-line' />
+			)}
+			<p
+				style={{
+					fontSize: `${1.075 * rootFontSize}px`,
+				}}
+				className='font-semibold'
+			>
+				{meaning.text}
+			</p>
+			<ul
+				style={{
+					fontSize: `${0.95 * rootFontSize}px`,
+				}}
+				className='list-disc flex-column gap-1'
+			>
+				{meaning.examples.map((example, index) => (
+					<li key={index} className='ml-8 my-0'>
+						{example}
+					</li>
+				))}
+			</ul>
+		</div>
+	);
+};
 
 export default App;
