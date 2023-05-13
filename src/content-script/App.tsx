@@ -4,14 +4,16 @@ import { CAMBRIDGE_DOMAIN } from '../constant';
 import ArrowLeftSVG from '../svgs/arrow-left.svg';
 import CloseSVG from '../svgs/close.svg';
 import LinkSVG from '../svgs/link.svg';
+import SettingSVG from '../svgs/setting.svg';
 import VolumeSVG from '../svgs/volume.svg';
 import { Meaning } from '../types/custom';
 import Icon from '../ui/icon';
 
-const duration = 300;
+const DURATION = 300;
+const ROOT_FONT_SIZE = 16;
 
 const defaultStyle = {
-	transition: `transform ${duration}ms ease-out`,
+	transition: `transform ${DURATION}ms ease-out`,
 	transform: 'translateX(101%)',
 };
 
@@ -27,9 +29,7 @@ const App = ({ root, data, onClose, onGoBack, isFirstChild }) => {
 	const [isOpen, setOpen] = React.useState<boolean>(false);
 	const { type, audios, meanings } = data;
 	const rootRef = React.useRef<HTMLElement>(root);
-	const [rootFontSize, setRootFontSize] = React.useState<number>(() => {
-		return +window.getComputedStyle(rootRef.current).getPropertyValue('--root-size') || 16;
-	});
+	const [rootFontSize, setRootFontSize] = React.useState<number>(ROOT_FONT_SIZE);
 
 	useEffect(() => {
 		// trigger animation
@@ -68,14 +68,14 @@ const App = ({ root, data, onClose, onGoBack, isFirstChild }) => {
 
 	return (
 		<FontContext.Provider value={{ rootFontSize, setRootFontSize }}>
-			<Transition in={isOpen} timeout={duration}>
+			<Transition in={isOpen} timeout={DURATION}>
 				{(state) => (
 					<div
 						style={{
 							...defaultStyle,
 							...transitionStyles[state],
 						}}
-						className='h-full text-dark-txt absolute inset-0 bg-blur px-3 pt-10 pb-2 flex-column gap-2 border-l border-solid border-line'
+						className='h-full text-dark-txt absolute inset-0 bg-[hsl(230,10%,97%,0.9)] backdrop-blur-md px-3 pt-10 pb-2 flex-column gap-2 border-l border-solid border-line'
 					>
 						{!isFirstChild ? (
 							<Icon
@@ -87,9 +87,9 @@ const App = ({ root, data, onClose, onGoBack, isFirstChild }) => {
 						) : null}
 						<Icon
 							onClick={handleChangeFontSize}
-							className='absolute top-1 right-10 text-danger border border-solid border-line border-opacity-30 rounded bg-white/30 hover:bg-white duration-200'
-							svg={LinkSVG}
-							title='Setting'
+							className='absolute top-1 right-10 border border-solid border-line border-opacity-30 rounded bg-white/30 hover:bg-white duration-200'
+							svg={SettingSVG}
+							title='Settings'
 						/>
 						<Icon
 							onClick={handleCloseAllTabs}
@@ -136,7 +136,14 @@ const App = ({ root, data, onClose, onGoBack, isFirstChild }) => {
 											}}
 											className='flex gap-1 items-center'
 										>
-											<p className='font-semibold uppercase'>{audioType}</p>
+											<p
+												style={{
+													fontSize: rootFontSize,
+												}}
+												className='font-semibold uppercase'
+											>
+												{audioType}
+											</p>
 											<Icon
 												onClick={() => handlePlayAudio(audioType)}
 												svg={VolumeSVG}
@@ -210,18 +217,18 @@ const MeaningBlock: React.FC<MeaningBlockProps> = ({ meaning, isFirstItem }) => 
 			>
 				{meaning.text}
 			</p>
-			<ul
+			<div
 				style={{
 					fontSize: `${0.95 * rootFontSize}px`,
 				}}
-				className='list-disc flex-column gap-1'
+				className='flex-column gap-1'
 			>
 				{meaning.examples.map((example, index) => (
-					<li key={index} className='ml-8 my-0'>
-						{example}
-					</li>
+					<p key={index} className='ml-4 my-0'>
+						&bull; {example}
+					</p>
 				))}
-			</ul>
+			</div>
 		</div>
 	);
 };
