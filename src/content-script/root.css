@@ -11,6 +11,16 @@
 	transition-timing-function: ease;
 }
 
+#spell-book-ext-selection-point {
+	position: fixed;
+	z-index: 2147483647;
+}
+
+#visual-english-ext input[type='range'] {
+	appearance: auto;
+	-webkit-appearance: auto;
+}
+
 #visual-english-ext-scrollbar {
 	overflow-y: auto;
 	overflow-x: hidden;

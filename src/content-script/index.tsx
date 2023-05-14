@@ -49,7 +49,6 @@ const initApp = (data: object) => {
 	root.render(
 		<WidgetProvider>
 			<App
-				root={container}
 				data={data}
 				onGoBack={() => handlePopTab(root, container)}
 				onClose={() => handleClear(container)}
@@ -83,7 +82,7 @@ const TriggerButton = ({ selectedText }) => {
 		<div
 			title='Lookup'
 			onClick={() => handleTrigger(selectedText)}
-			className='p-1 bg-white shadow-md shadow-purple-600 rounded-full cursor-pointer'
+			className='p-1 bg-white shadow-md shadow-purple-600 rounded-full cursor-pointer duration-200 hover:scale-110'
 		>
 			<img className='w-5 h-5' src={chrome.runtime.getURL('icon.png')} alt='Spell book' />
 		</div>
@@ -112,7 +111,6 @@ document.addEventListener('mouseup', (event) => {
 		rootPoint = document.createElement('div');
 		rootPoint.id = TRIGGER_ROOT_ID;
 		document.body.appendChild(rootPoint);
-		rootPoint.style.position = 'fixed';
 		reactTriggerRoot = ReactDOM.createRoot(rootPoint);
 	}
 
