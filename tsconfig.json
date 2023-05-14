@@ -8,6 +8,6 @@
         "moduleResolution": "node",
         "sourceMap": true,
     },
-    "include": ["src/**/*.ts", "src/**/*.tsx"],
+    "include": ["src/**/*.ts", "src/**/*.tsx", "src/content-script/Settings.jsx"],
     "exclude": ["node_modules"],
 }

@@ -4,12 +4,16 @@ import '../assets/tailwind.css';
 import { extractData } from '../helpers/data-collect';
 import App from './App';
 import './root.css';
+import { WidgetProvider } from './WidgetContext';
 
 const ROOT_ID = 'visual-english-ext';
 const TRIGGER_ROOT_ID = 'spell-book-ext-selection-point';
 let currentWords = [];
+let rootPoint: HTMLElement;
+let selectedText = '';
+let reactTriggerRoot: ReactDOM.Root;
 
-const handlePopTab = (root, container) => {
+const handlePopTab = (root: ReactDOM.Root, container) => {
 	currentWords.pop();
 	setTimeout(() => {
 		root.unmount();
@@ -43,13 +47,15 @@ const initApp = (data: object) => {
 	const root = ReactDOM.createRoot(tab);
 
 	root.render(
-		<App
-			root={container}
-			data={data}
-			onGoBack={() => handlePopTab(root, container)}
-			onClose={() => handleClear(container)}
-			isFirstChild={currentWords.length === 1}
-		/>
+		<WidgetProvider>
+			<App
+				root={container}
+				data={data}
+				onGoBack={() => handlePopTab(root, container)}
+				onClose={() => handleClear(container)}
+				isFirstChild={currentWords.length === 1}
+			/>
+		</WidgetProvider>
 	);
 };
 
@@ -68,9 +74,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	}
 });
 
-let reactTriggerRoot;
-let isMounted = false;
-
 const handleTrigger = (selectedText: string) => {
 	chrome.runtime.sendMessage({ action: 'select-popup', text: selectedText });
 };
@@ -80,24 +83,21 @@ const TriggerButton = ({ selectedText }) => {
 		<div
 			title='Lookup'
 			onClick={() => handleTrigger(selectedText)}
-			className='p-1 bg-white shadow-xl shadow-purple-600 rounded-full cursor-pointer'
+			className='p-1 bg-white shadow-md shadow-purple-600 rounded-full cursor-pointer'
 		>
-			<img className='w-5 h-5' src={chrome.runtime.getURL('icon.png')} />
+			<img className='w-5 h-5' src={chrome.runtime.getURL('icon.png')} alt='Spell book' />
 		</div>
 	);
 };
 
-const handleUnmountRoot = () => {
-	if (isMounted) {
-		reactTriggerRoot.unmount();
-		isMounted = false;
+const handleDisableTrigger = () => {
+	if (rootPoint) {
+		rootPoint.style.display = 'none';
 	}
 };
 
-let selectedText = '';
-
 document.addEventListener('mouseup', (event) => {
-	// handleUnmountRoot();
+	handleDisableTrigger();
 
 	if (window.getSelection().toString() == selectedText) return;
 
@@ -106,7 +106,7 @@ document.addEventListener('mouseup', (event) => {
 
 	const { clientX, clientY } = event;
 
-	let rootPoint = document.getElementById(TRIGGER_ROOT_ID);
+	rootPoint = document.getElementById(TRIGGER_ROOT_ID);
 
 	if (!rootPoint) {
 		rootPoint = document.createElement('div');
@@ -116,9 +116,9 @@ document.addEventListener('mouseup', (event) => {
 		reactTriggerRoot = ReactDOM.createRoot(rootPoint);
 	}
 
+	rootPoint.style.display = 'block';
 	rootPoint.style.top = clientY - 40 + 'px';
 	rootPoint.style.left = clientX + 'px';
 
 	reactTriggerRoot.render(<TriggerButton selectedText={selectedText} />);
-	isMounted = true;
 });
