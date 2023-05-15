@@ -84,3 +84,18 @@ export const extractData = (sourceContent: string, word: string) => {
 		meanings,
 	};
 };
+
+export const extractImages = (sourceImages: string) => {
+	const dom = new DOMParser().parseFromString(sourceImages, 'text/html');
+	if (!dom) return null;
+
+	const sources = [];
+
+	const imageElements = dom.querySelectorAll('[data-ri]>img');
+
+	imageElements.forEach((ele: HTMLImageElement) => {
+		ele.src && sources.push(ele.src);
+	});
+
+	return { sources };
+};

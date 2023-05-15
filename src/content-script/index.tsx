@@ -58,18 +58,18 @@ const initApp = (data: object) => {
 	);
 };
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((request) => {
 	if (request.action === 'select') {
 		let { word, sourceContent } = request.data;
 
-		const data = extractData(sourceContent, word);
+		const textData = extractData(sourceContent, word);
 
-		if (!data) return;
+		if (!textData) return;
 
 		if (currentWords.length > 0 && currentWords[currentWords.length - 1] === word) return;
 		currentWords.push(word);
 
-		initApp(data);
+		initApp(textData);
 	}
 });
 
