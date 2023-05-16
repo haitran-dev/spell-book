@@ -24,12 +24,12 @@ Tabs.Label = ({ label }) => {
 	const setActiveTab = React.useContext(TabDispatchContext);
 	const isActive = activeTab === label;
 
-	const activeClassName = isActive ? 'active' : '';
+	const activeClassName = isActive ? 'bg-blue-400' : '';
 
 	return (
 		<div
 			className={
-				'flex-1 p-1 text-center rounded bg-white shadow-md shadow-line duration-300 hover:bg-blue-400 cursor-pointer ' +
+				'flex-1 p-1 text-center rounded shadow-md shadow-line duration-300 hover:bg-blue-400 cursor-pointer ' +
 				activeClassName
 			}
 			onClick={() => setActiveTab(label)}

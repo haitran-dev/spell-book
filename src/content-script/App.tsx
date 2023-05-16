@@ -244,7 +244,13 @@ const MeaningBlock: React.FC<MeaningBlockProps> = ({ meaning, rootFontSize }) =>
 				className='flex-column gap-1'
 			>
 				{meaning.examples.map((example, index) => (
-					<p key={index} className='ml-4 my-0'>
+					<p
+						key={index}
+						style={{
+							fontSize: rootFontSize + 'px',
+						}}
+						className='ml-4 my-0'
+					>
 						&bull; {example}
 					</p>
 				))}
