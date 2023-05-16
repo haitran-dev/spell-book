@@ -2,6 +2,7 @@ import { CAMBRIDGE_DOMAIN } from '../constant';
 
 export const extractData = (sourceContent: string, word: string) => {
 	const dom = new DOMParser().parseFromString(sourceContent, 'text/html');
+
 	if (!dom) return null;
 
 	const meaningScopeEle = dom.querySelector('.entry-body__el');
@@ -87,15 +88,22 @@ export const extractData = (sourceContent: string, word: string) => {
 
 export const extractImages = (sourceImages: string) => {
 	const dom = new DOMParser().parseFromString(sourceImages, 'text/html');
+	console.log({ dom });
 	if (!dom) return null;
 
-	const sources = [];
+	const images = [];
 
-	const imageElements = dom.querySelectorAll('[data-ri]>img');
+	const imageLiElements = dom.querySelectorAll('[data-idx]');
 
-	imageElements.forEach((ele: HTMLImageElement) => {
-		ele.src && sources.push(ele.src);
+	imageLiElements.forEach((ele: HTMLImageElement) => {
+		const dataId = +ele.getAttribute('data-idx');
+
+		const source = ele.querySelector('[data-src]')?.getAttribute('data-src');
+
+		if (source) {
+			images.push({ idx: dataId, source });
+		}
 	});
 
-	return { sources };
+	return images;
 };

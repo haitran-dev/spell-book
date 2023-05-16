@@ -4,7 +4,7 @@ import useOnClickOutside from '../../hooks/useOnClickOutside';
 const PopoverContext = React.createContext<boolean>(null);
 const PopoverDispatchContext = React.createContext(null);
 
-const Popover = ({ className, children }) => {
+const Popover = ({ className, children }: { className?: string; children: React.ReactNode }) => {
 	const [isOpen, setOpen] = React.useState<boolean>(false);
 	const rootRef = useOnClickOutside(() => setOpen(false));
 
@@ -26,8 +26,6 @@ Popover.Trigger = ({ children }: { children: React.ReactNode }) => {
 		<div
 			onClick={() =>
 				togglePopover((state: boolean) => {
-					console.log({ state });
-
 					return !state;
 				})
 			}

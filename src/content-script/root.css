@@ -26,13 +26,13 @@
 	overflow-x: hidden;
 }
 
-#visual-english-ext-scrollbar::-webkit-scrollbar {
-	width: 4px;
+#visual-english-ext ::-webkit-scrollbar {
+	width: 2px;
 	background-color: transparent;
 }
 
-#visual-english-ext-scrollbar::-webkit-scrollbar-thumb {
-	background: #727272;
+#visual-english-ext ::-webkit-scrollbar-thumb {
+	background: hsl(0, 0%, 72%);
 	border-radius: 1px;
 }
 

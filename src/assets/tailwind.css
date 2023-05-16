@@ -14,4 +14,8 @@
 	.border-single {
 		@apply border border-solid;
 	}
+
+	.visible-hidden {
+		@apply invisible h-0 absolute overflow-hidden w-0 p-0 border-none m-0;
+	}
 }

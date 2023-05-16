@@ -12,6 +12,8 @@ import { WidgetContext } from './WidgetContext';
 import Settings from './Settings';
 import { settingTypes } from '../constant/setting';
 import Popover from '../ui/popover';
+import Images from './Images';
+import Tabs from '../ui/tabs';
 
 const DURATION = 300;
 
@@ -79,120 +81,140 @@ const App = ({ data, onClose, onGoBack, isFirstChild }) => {
 						...defaultStyle,
 						...transitionStyles[state],
 					}}
-					className='h-full text-dark-txt absolute inset-0 bg-[hsl(230,10%,97%,0.9)] backdrop-blur-md px-3 pt-10 pb-2 flex-column gap-2 border-l border-solid border-line'
+					className='h-full text-dark-txt absolute inset-0 bg-main backdrop-blur-md px-2 pt-10 pb-2 flex-column gap-2 border-l border-solid border-line'
 				>
 					{!isFirstChild ? (
 						<Icon
 							onClick={handleCloseTab}
-							className='absolute top-1 left-1 border border-solid border-line border-opacity-30 rounded bg-white/30 hover:bg-white duration-200'
+							className='absolute top-1 left-1 border border-solid border-line rounded bg-white duration-200'
 							svg={ArrowLeftSVG}
 							title='Back'
 						/>
 					) : null}
-					<Popover className='absolute top-1 right-10'>
-						<Popover.Trigger>
-							<Icon
-								className='border border-solid border-line border-opacity-30 rounded bg-white/30 hover:bg-white duration-200'
-								svg={SettingSVG}
-								title='Settings'
-							/>
-						</Popover.Trigger>
-						<Popover.Body>
-							<Settings />
-						</Popover.Body>
-					</Popover>
-					<Icon
-						onClick={handleCloseAllTabs}
-						className='absolute top-1 right-1 text-danger border border-solid border-line border-opacity-30 rounded bg-white/30 hover:bg-white duration-200'
-						svg={CloseSVG}
-						title='Close all tabs'
-					/>
-					<div className='flex gap-1 items-center'>
-						<p
-							style={{
-								fontSize: `${1.875 * +rootFontSize}px`,
-							}}
-							className='font-bold'
-						>
-							{data.title}
-						</p>
-						<a
-							href={`${CAMBRIDGE_DOMAIN}/dictionary/english/${data.title}`}
-							target='_blank'
-							rel='noopener noreferrer'
-						>
-							<Icon svg={LinkSVG} svgW={16} title='Original source' />
-						</a>
-					</div>
-					<p
-						style={{
-							fontSize: `${0.875 * +rootFontSize}px`,
-						}}
-						className='font-semibold italic'
-					>
-						{type}
-					</p>
-					<div className='flex gap-4'>
-						{audios?.map((audio) => {
-							const audioType = audio.type;
-
-							if (!audioType) return null;
-
-							return (
-								<React.Fragment key={audioType}>
-									<div
-										style={{
-											fontSize: `${rootFontSize}px`,
-										}}
-										className='flex gap-1 items-center'
-									>
-										<p className='font-semibold uppercase'>{audioType}</p>
-										<Icon
-											onClick={() => handlePlayAudio(audioType)}
-											svg={VolumeSVG}
-											title={`${audioType.toUpperCase()} Voice`}
-										/>
-									</div>
-									<audio
-										ref={(node) => {
-											const audiosMap = getAudioMap();
-											if (node) {
-												audiosMap.set(audioType, node);
-											} else {
-												audiosMap.delete(audioType);
-											}
-										}}
-									>
-										{audio.sources?.map((source) => (
-											<source
-												key={source.type}
-												type={source.type}
-												src={source.url}
-											/>
-										))}
-										audio {audioType}
-									</audio>
-								</React.Fragment>
-							);
-						})}
-					</div>
-					<div
-						id='visual-english-ext-scrollbar'
-						className='flex-col gap-[6px] w-full pr-3 -mr-2'
-					>
-						{meanings.map((meaning, index) => {
-							const id = crypto.randomUUID();
-							const isFirstItem = index === 0;
-							return (
-								<MeaningBlock
-									key={id}
-									meaning={meaning}
-									isFirstItem={isFirstItem}
-									rootFontSize={rootFontSize}
+					<div className='absolute top-1 right-1 flex gap-1 items-center'>
+						<Popover>
+							<Popover.Trigger>
+								<Icon
+									className='border border-solid border-line rounded bg-white duration-200'
+									svg={SettingSVG}
+									title='Settings'
 								/>
-							);
-						})}
+							</Popover.Trigger>
+							<Popover.Body>
+								<Settings />
+							</Popover.Body>
+						</Popover>
+						<Icon
+							onClick={handleCloseAllTabs}
+							className='text-danger border border-solid border-line rounded bg-white duration-200'
+							svg={CloseSVG}
+							title='Close all tabs'
+						/>
 					</div>
+					<Tabs defaultLabel='Text'>
+						<Tabs.Labels>
+							<Tabs.Label label='Text' />
+							<Tabs.Label label='Image' />
+						</Tabs.Labels>
+						<Tabs.Panels>
+							<Tabs.Panel label='Text'>
+								<div className='flex flex-col gap-1 mb-1'>
+									<div className='flex gap-1 items-center'>
+										<p
+											style={{
+												fontSize: `${1.875 * +rootFontSize}px`,
+											}}
+											className='font-bold'
+										>
+											{data.title}
+										</p>
+										<a
+											href={`${CAMBRIDGE_DOMAIN}/dictionary/english/${data.title}`}
+											target='_blank'
+											rel='noopener noreferrer'
+										>
+											<Icon svg={LinkSVG} svgW={16} title='Original source' />
+										</a>
+									</div>
+									<p
+										style={{
+											fontSize: `${0.875 * +rootFontSize}px`,
+										}}
+										className='font-semibold italic'
+									>
+										{type}
+									</p>
+									<div className='flex gap-4'>
+										{audios?.map((audio) => {
+											const audioType = audio.type;
+
+											if (!audioType) return null;
+
+											return (
+												<React.Fragment key={audioType}>
+													<div
+														style={{
+															fontSize: `${rootFontSize}px`,
+														}}
+														className='flex gap-1 items-center'
+													>
+														<p className='font-semibold uppercase'>
+															{audioType}
+														</p>
+														<Icon
+															onClick={() =>
+																handlePlayAudio(audioType)
+															}
+															svg={VolumeSVG}
+															title={`${audioType.toUpperCase()} Voice`}
+														/>
+													</div>
+													<audio
+														ref={(node) => {
+															const audiosMap = getAudioMap();
+															if (node) {
+																audiosMap.set(audioType, node);
+															} else {
+																audiosMap.delete(audioType);
+															}
+														}}
+													>
+														{audio.sources?.map((source) => (
+															<source
+																key={source.type}
+																type={source.type}
+																src={source.url}
+															/>
+														))}
+														audio {audioType}
+													</audio>
+												</React.Fragment>
+											);
+										})}
+									</div>
+								</div>
+								<div
+									id='visual-english-ext-scrollbar'
+									className='flex-col gap-[6px] w-full pr-2 -mr-1'
+								>
+									{meanings.map((meaning, index) => {
+										const id = crypto.randomUUID();
+										const isFirstItem = index === 0;
+										return (
+											<MeaningBlock
+												key={id}
+												meaning={meaning}
+												rootFontSize={rootFontSize}
+											/>
+										);
+									})}
+								</div>
+							</Tabs.Panel>
+							<Tabs.Panel label='Image'>
+								<Images word={data.title} />
+							</Tabs.Panel>
+						</Tabs.Panels>
+					</Tabs>
 				</div>
 			)}
 		</Transition>
@@ -201,16 +223,12 @@ const App = ({ data, onClose, onGoBack, isFirstChild }) => {
 
 type MeaningBlockProps = {
 	meaning: Meaning;
-	isFirstItem: boolean;
 	rootFontSize: number;
 };
 
-const MeaningBlock: React.FC<MeaningBlockProps> = ({ meaning, isFirstItem, rootFontSize }) => {
+const MeaningBlock: React.FC<MeaningBlockProps> = ({ meaning, rootFontSize }) => {
 	return (
-		<div className='space-y-2 mb-2'>
-			{!isFirstItem && (
-				<div className='h-[1px] w-[calc(100% + 12px)] -ml-[6px] -mr-[6px] bg-line' />
-			)}
+		<div className='space-y-2 mb-1 bg-white hover:bg-main duration-200 p-3 border-single border-line rounded'>
 			<p
 				style={{
 					fontSize: `${1.075 * rootFontSize}px`,

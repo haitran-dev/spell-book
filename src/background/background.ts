@@ -8,25 +8,22 @@ const fetchMeaning = async (word: string) => {
 };
 
 const fetchImages = async (word: string) => {
-	const response = await fetch(`https://www.google.com/search?q=${word}+illustration&tbm=isch`, {
+	const response = await fetch(`https://www.bing.com/images/search?q=${word}%20illustration`, {
 		method: 'GET',
 		credentials: 'omit',
 	});
 
-	return response.text();
+	const text = await response.text();
+
+	return text;
 };
 
 chrome.runtime.onMessage.addListener(async (message) => {
-	// const message = event.data;
-
-	console.log({ message });
-
 	if (message.action === 'select-popup') {
 		const sourceContent = await fetchMeaning(message.text);
 
 		chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
 			const tabId = tabs[0].id;
-			console.log({ tabId });
 
 			chrome.tabs.sendMessage(tabId, {
 				action: 'select',
@@ -41,11 +38,10 @@ chrome.runtime.onMessage.addListener(async (message) => {
 		chrome.windows.getCurrent((w) => {
 			chrome.tabs.query({ active: true, windowId: w.id }, function (tabs) {
 				const tabId = tabs[0].id;
-				console.log({ tabId });
 
 				chrome.tabs.sendMessage(tabId, {
 					action: 'response-images',
-					data: { sourceImages },
+					data: { sourceImages, keyword: message.text },
 				});
 			});
 		});
