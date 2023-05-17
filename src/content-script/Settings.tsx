@@ -14,10 +14,29 @@ const Settings = () => {
 	};
 
 	return (
-		<div className='w-[300px] bg-white backdrop-blur-sm border-single border-opacity-30 border-line rounded p-2 shadow-md grid grid-cols-2 gap-y-2 gap-x-5'>
+		<div
+			style={{
+				width: '300px',
+				backgroundColor: 'white',
+				backdropFilter: 'blur(6px)',
+				border: '1px solid var(--color-line)',
+				borderRadius: '4px',
+				padding: '8px',
+				boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+				display: 'grid',
+				gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+				rowGap: '16px',
+			}}
+		>
 			{widgets.map((widget) => {
 				return (
-					<label className='font-semibold text-[14px]' key={widget.name}>
+					<label
+						style={{
+							fontWeight: 600,
+							color: '14px',
+						}}
+						key={widget.name}
+					>
 						{widget.label}
 						<input
 							type={widget.type}

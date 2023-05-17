@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import '../assets/tailwind.css';
 import { extractData } from '../helpers/data-collect';
-import App from './App';
 import './root.css';
+import App from './App';
 import { WidgetProvider } from './WidgetContext';
 
-const ROOT_ID = 'visual-english-ext';
+export const ROOT_ID = 'visual-english-ext';
 const TRIGGER_ROOT_ID = 'spell-book-ext-selection-point';
+
 let currentWords = [];
 let rootPoint: HTMLElement;
 let selectedText = '';
@@ -33,7 +33,7 @@ const handleClear = (node) => {
 };
 
 const initApp = (data: object) => {
-	let container: HTMLElement = document.querySelector(`#${ROOT_ID}`);
+	let container: HTMLDivElement = document.querySelector(`#${ROOT_ID}`);
 
 	if (!container) {
 		container = document.createElement('div');
@@ -78,13 +78,36 @@ const handleTrigger = (selectedText: string) => {
 };
 
 const TriggerButton = ({ selectedText }) => {
+	const [scaleRatio, setScaleRatio] = useState(1);
+
 	return (
 		<div
 			title='Lookup'
 			onClick={() => handleTrigger(selectedText)}
-			className='p-1 bg-white shadow-md shadow-purple-600 rounded-full cursor-pointer duration-200 hover:scale-110'
+			onMouseOver={() => {
+				setScaleRatio(1.15);
+			}}
+			onMouseLeave={() => {
+				setScaleRatio(1);
+			}}
+			style={{
+				padding: '4px',
+				backgroundColor: '#fff',
+				boxShadow: '0 4px 6px -1px rgba(147, 51, 234), 0 2px 4px -2px rgba(147, 51, 234)',
+				borderRadius: '999px',
+				cursor: 'pointer',
+				transitionDuration: '200ms',
+				transform: `scale(${scaleRatio})`,
+			}}
 		>
-			<img className='w-5 h-5' src={chrome.runtime.getURL('icon.png')} alt='Spell book' />
+			<img
+				style={{
+					width: '20px',
+					height: '20px',
+				}}
+				src={chrome.runtime.getURL('icon.png')}
+				alt='Spell book'
+			/>
 		</div>
 	);
 };

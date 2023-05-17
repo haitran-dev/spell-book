@@ -44,7 +44,7 @@ const App = ({ data, onClose, onGoBack, isFirstChild }) => {
 		// change sound volume
 		if (!audiosRef) return;
 
-		audiosRef.current.forEach((audio) => {
+		audiosRef.current?.forEach((audio) => {
 			audio.volume = audioVolume;
 		});
 	}, [audioVolume]);
@@ -80,22 +80,57 @@ const App = ({ data, onClose, onGoBack, isFirstChild }) => {
 					style={{
 						...defaultStyle,
 						...transitionStyles[state],
+						height: '100%',
+						color: 'var(--dark-txt)',
+						position: 'absolute',
+						inset: 0,
+						backgroundColor: 'var(--color-main)',
+						backdropFilter: 'blur(12px)',
+						paddingLeft: '6px',
+						paddingRight: '6px',
+						paddingTop: '40px',
+						paddingBottom: '6px',
+						display: 'flex',
+						flexDirection: 'column',
+						gap: '8px',
+						borderLeft: '1px solid var(--color-line)',
 					}}
-					className='h-full text-dark-txt absolute inset-0 bg-main backdrop-blur-md px-2 pt-10 pb-2 flex-column gap-2 border-l border-solid border-line'
 				>
 					{!isFirstChild ? (
 						<Icon
 							onClick={handleCloseTab}
-							className='absolute top-1 left-1 border border-solid border-line rounded bg-white duration-200'
+							style={{
+								position: 'absolute',
+								top: '4px',
+								left: '4px',
+								border: '1px solid var(--color-line)',
+								borderRadius: '4px',
+								backgroundColor: '#fff',
+								transitionDuration: '200ms',
+							}}
 							svg={ArrowLeftSVG}
 							title='Back'
 						/>
 					) : null}
-					<div className='absolute top-1 right-1 flex gap-1 items-center'>
+					<div
+						style={{
+							position: 'absolute',
+							top: '4px',
+							right: '4px',
+							display: 'flex',
+							gap: '4px',
+							alignItems: 'center',
+						}}
+					>
 						<Popover>
 							<Popover.Trigger>
 								<Icon
-									className='border border-solid border-line rounded bg-white duration-200'
+									style={{
+										border: '1px solid var(--color-line)',
+										borderRadius: '4px',
+										backgroundColor: '#fff',
+										transitionDuration: '200ms',
+									}}
 									svg={SettingSVG}
 									title='Settings'
 								/>
@@ -106,7 +141,13 @@ const App = ({ data, onClose, onGoBack, isFirstChild }) => {
 						</Popover>
 						<Icon
 							onClick={handleCloseAllTabs}
-							className='text-danger border border-solid border-line rounded bg-white duration-200'
+							style={{
+								color: 'var(--color-danger)',
+								border: '1px solid var(--color-line)',
+								borderRadius: '4px',
+								backgroundColor: '#fff',
+								transitionDuration: '200ms',
+							}}
 							svg={CloseSVG}
 							title='Close all tabs'
 						/>
@@ -118,13 +159,26 @@ const App = ({ data, onClose, onGoBack, isFirstChild }) => {
 						</Tabs.Labels>
 						<Tabs.Panels>
 							<Tabs.Panel label='Text'>
-								<div className='flex flex-col gap-1 mb-1'>
-									<div className='flex gap-1 items-center'>
+								<div
+									style={{
+										display: 'flex',
+										flexDirection: 'column',
+										gap: '4px',
+										marginBottom: '4px',
+									}}
+								>
+									<div
+										style={{
+											display: 'flex',
+											gap: '4px',
+											alignItems: 'center',
+										}}
+									>
 										<p
 											style={{
 												fontSize: `${1.875 * +rootFontSize}px`,
+												fontWeight: '600',
 											}}
-											className='font-bold'
 										>
 											{data.title}
 										</p>
@@ -139,12 +193,18 @@ const App = ({ data, onClose, onGoBack, isFirstChild }) => {
 									<p
 										style={{
 											fontSize: `${0.875 * +rootFontSize}px`,
+											fontWeight: '600',
+											fontStyle: 'italic',
 										}}
-										className='font-semibold italic'
 									>
 										{type}
 									</p>
-									<div className='flex gap-4'>
+									<div
+										style={{
+											display: 'flex',
+											gap: '16px',
+										}}
+									>
 										{audios?.map((audio) => {
 											const audioType = audio.type;
 
@@ -155,10 +215,17 @@ const App = ({ data, onClose, onGoBack, isFirstChild }) => {
 													<div
 														style={{
 															fontSize: `${rootFontSize}px`,
+															display: 'flex',
+															gap: '4px',
+															alignItems: 'center',
 														}}
-														className='flex gap-1 items-center'
 													>
-														<p className='font-semibold uppercase'>
+														<p
+															style={{
+																fontWeight: 600,
+																textTransform: 'uppercase',
+															}}
+														>
 															{audioType}
 														</p>
 														<Icon
@@ -193,10 +260,19 @@ const App = ({ data, onClose, onGoBack, isFirstChild }) => {
 										})}
 									</div>
 								</div>
-								<div className='flex-col gap-[6px] w-full pr-2 -mr-1 overflow-auto'>
+								<div
+									style={{
+										display: 'flex',
+										flexDirection: 'column',
+										gap: '6px',
+										width: '100%',
+										paddingRight: '8px',
+										marginRight: '-4px',
+										overflow: 'auto',
+									}}
+								>
 									{meanings.map((meaning, index) => {
 										const id = crypto.randomUUID();
-										const isFirstItem = index === 0;
 										return (
 											<MeaningBlock
 												key={id}
@@ -225,28 +301,43 @@ type MeaningBlockProps = {
 
 const MeaningBlock: React.FC<MeaningBlockProps> = ({ meaning, rootFontSize }) => {
 	return (
-		<div className='space-y-2 mb-1 bg-white hover:bg-main duration-200 p-3 border-single border-line rounded'>
+		<div
+			style={{
+				display: 'flex',
+				flexDirection: 'column',
+				gap: '8px',
+				marginBottom: '1px',
+				backgroundColor: '#fff',
+				padding: '12px',
+				border: '1px solid var(--color-line)',
+				borderRadius: '4px',
+			}}
+		>
 			<p
 				style={{
 					fontSize: `${1.075 * rootFontSize}px`,
+					fontWeight: '600',
 				}}
-				className='font-semibold'
 			>
 				{meaning.text}
 			</p>
 			<div
 				style={{
 					fontSize: `${0.95 * rootFontSize}px`,
+					display: 'flex',
+					flexDirection: 'column',
+					gap: '4px',
 				}}
-				className='flex-column gap-1'
 			>
 				{meaning.examples.map((example, index) => (
 					<p
 						key={index}
 						style={{
 							fontSize: rootFontSize + 'px',
+							marginLeft: '16px',
+							marginTop: 0,
+							marginBottom: 0,
 						}}
-						className='ml-4 my-0'
 					>
 						&bull; {example}
 					</p>

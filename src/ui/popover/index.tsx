@@ -4,16 +4,14 @@ import useOnClickOutside from '../../hooks/useOnClickOutside';
 const PopoverContext = React.createContext<boolean>(null);
 const PopoverDispatchContext = React.createContext(null);
 
-const Popover = ({ className, children }: { className?: string; children: React.ReactNode }) => {
+const Popover = ({ children }: { children: React.ReactNode }) => {
 	const [isOpen, setOpen] = React.useState<boolean>(false);
 	const rootRef = useOnClickOutside(() => setOpen(false));
 
 	return (
 		<PopoverContext.Provider value={isOpen}>
 			<PopoverDispatchContext.Provider value={setOpen}>
-				<div ref={rootRef} className={className}>
-					{children}
-				</div>
+				<div ref={rootRef}>{children}</div>
 			</PopoverDispatchContext.Provider>
 		</PopoverContext.Provider>
 	);
@@ -40,7 +38,17 @@ Popover.Body = ({ children }: { children: React.ReactNode }) => {
 
 	if (!isOpen) return null;
 
-	return <div className='absolute top-[calc(100%+4px)] right-0'>{children}</div>;
+	return (
+		<div
+			style={{
+				display: 'absolute',
+				top: 'calc(100% + 4px)',
+				right: 0,
+			}}
+		>
+			{children}
+		</div>
+	);
 };
 
 export default Popover;

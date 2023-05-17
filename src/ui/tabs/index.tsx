@@ -9,14 +9,32 @@ const Tabs = ({ defaultLabel, children }) => {
 	return (
 		<TabContext.Provider value={activeTab}>
 			<TabDispatchContext.Provider value={setActiveTab}>
-				<div className='flex flex-col gap-2 h-full'>{children}</div>
+				<div
+					style={{
+						display: 'flex',
+						flexDirection: 'column',
+						gap: '8px',
+						height: '100%',
+					}}
+				>
+					{children}
+				</div>
 			</TabDispatchContext.Provider>
 		</TabContext.Provider>
 	);
 };
 
 Tabs.Labels = ({ children }) => (
-	<div className='flex items-center gap-2 font-semibold'>{children}</div>
+	<div
+		style={{
+			display: 'flex',
+			alignItems: 'center',
+			gap: '8px',
+			fontWeight: 600,
+		}}
+	>
+		{children}
+	</div>
 );
 
 Tabs.Label = ({ label }) => {
@@ -24,14 +42,17 @@ Tabs.Label = ({ label }) => {
 	const setActiveTab = React.useContext(TabDispatchContext);
 	const isActive = activeTab === label;
 
-	const activeClassName = isActive ? 'bg-blue-400' : '';
-
 	return (
 		<div
-			className={
-				'flex-1 p-1 text-center rounded shadow-md shadow-line duration-300 hover:bg-blue-400 cursor-pointer ' +
-				activeClassName
-			}
+			style={{
+				flex: 1,
+				padding: '4px',
+				textAlign: 'center',
+				borderRadius: '4px',
+				border: '1px solid var(--color-line)',
+				cursor: 'pointer',
+				...(isActive && { backgroundColor: 'rgb(95, 171, 221)' }),
+			}}
 			onClick={() => setActiveTab(label)}
 		>
 			{label}
@@ -40,16 +61,35 @@ Tabs.Label = ({ label }) => {
 };
 
 Tabs.Panels = ({ children }) => {
-	return <div className='h-0 flex-1'>{children}</div>;
+	return (
+		<div
+			style={{
+				height: 0,
+				flex: 1,
+			}}
+		>
+			{children}
+		</div>
+	);
 };
 
 Tabs.Panel = ({ children, label }) => {
 	const activeTab = React.useContext(TabContext);
 	const isActive = activeTab === label;
 
-	const activeClassName = isActive ? 'visible' : 'visible-hidden';
-
-	return <div className={'h-full flex flex-col ' + activeClassName}>{children}</div>;
+	return (
+		<div
+			style={{
+				display: 'flex',
+				flexDirection: 'column',
+				...(isActive
+					? { visibility: 'visible', height: '100%' }
+					: { visibility: 'hidden', height: 0 }),
+			}}
+		>
+			{children}
+		</div>
+	);
 };
 
 export default Tabs;

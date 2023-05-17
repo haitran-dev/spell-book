@@ -28,14 +28,26 @@ const Images = ({ word }) => {
 	}, []);
 
 	return (
-		<div className='columns-2 gap-2 overflow-auto p-2 -mr-2 rounded-lg shadow-md'>
+		<div
+			style={{
+				columnCount: 2,
+				backgroundColor: '#fff',
+				gap: '8px',
+				overflow: 'auto',
+				padding: '8px',
+			}}
+		>
 			{isLoading ? (
 				<>
 					{range(1, 6).map((num) => (
 						<div
 							key={num}
-							style={{ height: 150 + num * 10 + 'px' }}
-							className='mb-2 rounded bg-slate-200 animate-pulse'
+							style={{
+								height: 150 + num * 10 + 'px',
+								marginBottom: '8px',
+								borderRadius: '4px',
+								backgroundColor: 'rgba(226, 232, 240, 0.2)',
+							}}
 						/>
 					))}
 				</>
@@ -51,7 +63,17 @@ const Images = ({ word }) => {
 };
 
 const Image = ({ src }) => {
-	return <img className='rounded w-full mb-2' src={src} />;
+	return (
+		<img
+			style={{
+				borderRadius: '4px',
+				width: '100%',
+				marginBottom: '8px',
+				boxShadow: '0 0 5px 1px rgba(0,0,0,0.2)',
+			}}
+			src={src}
+		/>
+	);
 };
 
 export default Images;
