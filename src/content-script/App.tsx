@@ -193,10 +193,7 @@ const App = ({ data, onClose, onGoBack, isFirstChild }) => {
 										})}
 									</div>
 								</div>
-								<div
-									id='visual-english-ext-scrollbar'
-									className='flex-col gap-[6px] w-full pr-2 -mr-1'
-								>
+								<div className='flex-col gap-[6px] w-full pr-2 -mr-1 overflow-auto'>
 									{meanings.map((meaning, index) => {
 										const id = crypto.randomUUID();
 										const isFirstItem = index === 0;

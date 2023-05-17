@@ -21,11 +21,6 @@
 	-webkit-appearance: auto;
 }
 
-#visual-english-ext-scrollbar {
-	overflow-y: auto;
-	overflow-x: hidden;
-}
-
 #visual-english-ext ::-webkit-scrollbar {
 	width: 2px;
 	background-color: transparent;
