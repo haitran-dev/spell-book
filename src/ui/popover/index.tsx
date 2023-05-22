@@ -41,7 +41,7 @@ Popover.Body = ({ children }: { children: React.ReactNode }) => {
 	return (
 		<div
 			style={{
-				display: 'absolute',
+				position: 'absolute',
 				top: 'calc(100% + 4px)',
 				right: 0,
 			}}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { extractData } from '../helpers/data-collect';
-import './root.css';
+import './root.scss';
 import App from './App';
 import { WidgetProvider } from './WidgetContext';
 

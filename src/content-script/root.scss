@@ -18,11 +18,6 @@
 	transition-timing-function: ease;
 }
 
-#spell-book-ext-selection-point {
-	position: fixed;
-	z-index: 2147483647;
-}
-
 #visual-english-ext ::-webkit-scrollbar {
 	width: 2px;
 	background-color: transparent;
@@ -34,6 +29,13 @@
 	border: 1px solid hsl(0, 0%, 72%);
 }
 
+#visual-english-ext {
+	p {
+		margin: 0;
+		padding: 0;
+	}
+}
+
 @keyframes slideOut {
 	0% {
 		transform: translateX(0%);
@@ -42,4 +44,9 @@
 	100% {
 		transform: translateX(101%);
 	}
+}
+
+#spell-book-ext-selection-point {
+	position: fixed;
+	z-index: 2147483647;
 }
