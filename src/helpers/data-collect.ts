@@ -54,6 +54,8 @@ export const extractData = (sourceContent: string, word: string) => {
 						audioUSEle.querySelector('[type="audio/ogg"]')?.getAttribute('src'),
 				},
 			],
+			pronunciation: document.querySelector('.us.dpron-i')?.querySelector('.pron.dpron')
+				.textContent,
 		});
 	}
 
@@ -75,6 +77,8 @@ export const extractData = (sourceContent: string, word: string) => {
 						audioUKEle.querySelector('[type="audio/ogg"]')?.getAttribute('src'),
 				},
 			],
+			pronunciation: document.querySelector('.uk.dpron-i')?.querySelector('.pron.dpron')
+				.textContent,
 		});
 	}
 

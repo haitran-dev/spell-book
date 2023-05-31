@@ -51,7 +51,7 @@ Tabs.Label = ({ label }) => {
 				borderRadius: '4px',
 				border: '1px solid var(--color-line)',
 				cursor: 'pointer',
-				...(isActive && { backgroundColor: 'rgb(95, 171, 221)' }),
+				...(isActive && { backgroundColor: 'hsl(203, 64%, 61%' }),
 			}}
 			onClick={() => setActiveTab(label)}
 		>

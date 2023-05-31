@@ -22,8 +22,10 @@ chrome.runtime.onMessage.addListener(async (message) => {
 	if (message.action === 'select-popup') {
 		const sourceContent = await fetchMeaning(message.text);
 
+		console.log({ word: message.text });
+
 		chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-			const tabId = tabs[0].id;
+			const tabId = tabs[0]?.id;
 
 			chrome.tabs.sendMessage(tabId, {
 				action: 'select',

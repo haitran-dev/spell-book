@@ -224,6 +224,7 @@ const App = ({ data, onClose, onGoBack, isFirstChild }) => {
 															style={{
 																fontWeight: 600,
 																textTransform: 'uppercase',
+																lineHeight: 1,
 															}}
 														>
 															{audioType}
@@ -235,6 +236,7 @@ const App = ({ data, onClose, onGoBack, isFirstChild }) => {
 															svg={VolumeSVG}
 															title={`${audioType.toUpperCase()} Voice`}
 														/>
+														<span>{audio.pronunciation}</span>
 													</div>
 													<audio
 														ref={(node) => {
