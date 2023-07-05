@@ -9,32 +9,14 @@ const Tabs = ({ defaultLabel, children }) => {
   return (
     <TabContext.Provider value={activeTab}>
       <TabDispatchContext.Provider value={setActiveTab}>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "8px",
-            height: "100%",
-          }}
-        >
-          {children}
-        </div>
+        <div className="tab-container">{children}</div>
       </TabDispatchContext.Provider>
     </TabContext.Provider>
   );
 };
 
 Tabs.Labels = ({ children }) => (
-  <div
-    style={{
-      display: "flex",
-      alignItems: "center",
-      gap: "8px",
-      fontWeight: 600,
-    }}
-  >
-    {children}
-  </div>
+  <div className="tab-label-container">{children}</div>
 );
 
 Tabs.Label = ({ label }) => {
@@ -44,18 +26,12 @@ Tabs.Label = ({ label }) => {
 
   return (
     <div
-      style={{
-        flex: 1,
-        padding: "4px",
-        textAlign: "center",
-        borderRadius: "4px",
-        border: "1px solid var(--color-line)",
-        cursor: "pointer",
-        ...(isActive && { backgroundColor: "hsl(203, 64%, 61%" }),
-      }}
+      className="tab-label"
+      data-is-active={!!isActive}
       onClick={() => setActiveTab(label)}
     >
-      {label}
+      <div className="tab-label-bottom" />
+      <div className="tab-label-content">{label}</div>
     </div>
   );
 };

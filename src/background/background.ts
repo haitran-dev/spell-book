@@ -12,7 +12,7 @@ const fetchMeaning = async (word: string) => {
 
 const fetchImages = async (word: string) => {
   const response = await fetch(
-    `https://www.bing.com/images/search?q='${word}'%20illustration%20intuitive`,
+    `https://www.bing.com/images/search?q=${word}%20illustration`,
     {
       method: "GET",
       credentials: "omit",

@@ -25,15 +25,7 @@ const Images = ({ word }) => {
   }, []);
 
   return (
-    <div
-      style={{
-        columnCount: 2,
-        backgroundColor: "#fff",
-        gap: "8px",
-        overflow: "auto",
-        padding: "8px",
-      }}
-    >
+    <div className="images-container">
       {isLoading ? (
         <>
           {range(1, 6).map((num) => (
@@ -43,7 +35,7 @@ const Images = ({ word }) => {
                 height: 150 + num * 10 + "px",
                 marginBottom: "8px",
                 borderRadius: "4px",
-                backgroundColor: "rgba(226, 232, 240, 0.2)",
+                backgroundColor: "#ccc",
               }}
             />
           ))}
@@ -60,17 +52,7 @@ const Images = ({ word }) => {
 };
 
 const Image = ({ src }) => {
-  return (
-    <img
-      style={{
-        borderRadius: "4px",
-        width: "100%",
-        marginBottom: "8px",
-        boxShadow: "0 0 5px 1px rgba(0,0,0,0.2)",
-      }}
-      src={src}
-    />
-  );
+  return <img className="spell-image" src={src} />;
 };
 
 export default Images;
