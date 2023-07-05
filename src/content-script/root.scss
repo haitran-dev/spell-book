@@ -1,52 +1,175 @@
-#visual-english-ext {
-	--color-main: hsl(270, 20%, 97%);
-	--dark-txt: #03052e;
-	--light-txt: #e7e8fc;
-	--color-line: hsl(0, 0%, 85%);
-	--color-danger: #ff1111;
-	--shadow-card: 0 1px 40px 1px hsl(0, 0%, 0%, 0.3);
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,200:0,500;0,700;1,100&display=swap");
 
-	position: fixed;
-	right: 0;
-	top: 0;
-	z-index: 2147483647;
-	height: 100vh;
-	width: 375px;
-	transform: translateX(0%);
-	transition: all;
-	transition-duration: 300ms;
-	transition-timing-function: ease;
+#visual-english-ext {
+  font-family: "Roboto", sans-serif;
+  --color-main: hsl(270, 20%, 97%);
+  --dark-txt: #03052e;
+  --light-txt: #e7e8fc;
+  --color-line: hsl(0, 0%, 85%);
+  --color-danger: #ff1111;
+  --shadow-card: 0 1px 40px 1px hsl(0, 0%, 0%, 0.3);
+
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 2147483647;
+  height: 100vh;
+  width: 375px;
+  transform: translateX(0%);
+  transition: all;
+  transition-duration: 300ms;
+  transition-timing-function: ease;
+
+  & * {
+    line-height: 1.25;
+    margin: 0;
+    padding: 0;
+  }
+
+  .aside-container {
+    height: 100%;
+    color: var(--dark-txt);
+    position: absolute;
+    inset: 0;
+    background-color: var(--color-main);
+    backdrop-filter: blur(12px);
+    padding-left: 6px;
+    padding-right: 6px;
+    padding-top: 40px;
+    padding-bottom: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border-left: 1px solid var(--color-line);
+
+    .close-icon {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      border: 1px solid var(--color-line);
+      border-radius: 4px;
+      background-color: #fff;
+      transition-duration: 200ms;
+    }
+
+    .setting-icon-wrapper {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      display: flex;
+      gap: 4px;
+      align-items: center;
+
+      .setting-icon {
+        border: 1px solid var(--color-line);
+        border-radius: 4px;
+        background-color: #fff;
+        transition-duration: 200ms;
+      }
+    }
+
+    .close-all-icon {
+      color: var(--color-danger);
+      border: 1px solid var(--color-line);
+      border-radius: 4px;
+      background-color: #fff;
+      transition-duration: 200ms;
+    }
+
+    .meaning-block {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      width: 100%;
+      padding-right: 8px;
+      margin-right: -4px;
+      overflow: auto;
+
+      .meaning-item {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 1px;
+        background-color: #fff;
+        padding: 12px;
+        border: 1px solid var(--color-line);
+        border-radius: 4px;
+
+        .meaning-title {
+          font-weight: 600;
+        }
+
+        .example-block {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+
+          .example-item {
+            font-weight: 200;
+            margin-left: 16px;
+            margin-top: 0;
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+  }
 }
 
 #visual-english-ext ::-webkit-scrollbar {
-	width: 2px;
-	background-color: transparent;
+  width: 2px;
+  background-color: transparent;
 }
 
 #visual-english-ext ::-webkit-scrollbar-thumb {
-	background-color: hsl(0, 0%, 72%);
-	border-radius: 1px;
-	border: 1px solid hsl(0, 0%, 72%);
+  background-color: hsl(0, 0%, 72%);
+  border-radius: 1px;
+  border: 1px solid hsl(0, 0%, 72%);
 }
 
 #visual-english-ext {
-	p {
-		margin: 0;
-		padding: 0;
-	}
+  p {
+    margin: 0;
+    padding: 0;
+  }
 }
 
 @keyframes slideOut {
-	0% {
-		transform: translateX(0%);
-	}
+  0% {
+    transform: translateX(0%);
+  }
 
-	100% {
-		transform: translateX(101%);
-	}
+  100% {
+    transform: translateX(101%);
+  }
 }
 
 #spell-book-ext-selection-point {
-	position: fixed;
-	z-index: 2147483647;
+  position: fixed;
+  z-index: 2147483647;
+
+  & * {
+    line-height: 1.25;
+  }
+}
+
+.lookup-btn {
+  display: flex;
+  padding: 4px;
+  background-color: #fff;
+  box-shadow: 0 4px 6px -1px rgba(147, 51, 234),
+    0 2px 4px -2px rgba(147, 51, 234);
+  border-radius: 999px;
+  cursor: pointer;
+  transition-duration: 200ms;
+
+  &:hover {
+    transform: scale(1.15);
+    transition-duration: 200ms;
+  }
+
+  & img {
+    width: 20px;
+    height: 20px;
+  }
 }
