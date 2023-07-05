@@ -9,7 +9,7 @@ const Images = ({ word }) => {
   React.useEffect(() => {
     setLoading(true);
 
-    const listenFetchImage = (request) => {
+    chrome.runtime.onMessage.addListener((request) => {
       if (request.action === "response-images") {
         const { sourceImages, keyword } = request.data;
 
@@ -19,9 +19,7 @@ const Images = ({ word }) => {
         setImages(images);
         setLoading(false);
       }
-    };
-
-    chrome.runtime.onMessage.addListener(listenFetchImage);
+    });
 
     chrome.runtime.sendMessage({ action: "fetch-images", text: word });
   }, []);
