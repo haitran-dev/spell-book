@@ -77,43 +77,49 @@
       transition-duration: 200ms;
     }
 
-    .meaning-block {
+    .meaning-container {
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      width: 100%;
+      gap: 12px;
       padding-right: 8px;
       margin-right: -4px;
       overflow: auto;
 
-      .meaning-item {
+      .meaning-block {
         display: flex;
         flex-direction: column;
-        gap: 8px;
-        margin-bottom: 1px;
-        background-color: #fff;
-        padding: 12px;
-        border: 2px solid var(--color-line);
-        border-radius: 4px;
+        gap: 6px;
+        width: 100%;
 
-        &:hover {
-          border-color: blueviolet;
-        }
-
-        .meaning-title {
-          font-weight: 600;
-        }
-
-        .example-block {
+        .meaning-item {
           display: flex;
           flex-direction: column;
-          gap: 4px;
+          gap: 8px;
+          margin-bottom: 1px;
+          background-color: #fff;
+          padding: 12px;
+          border: 2px solid var(--color-line);
+          border-radius: 4px;
 
-          .example-item {
-            font-weight: 200;
-            margin-left: 16px;
-            margin-top: 0;
-            margin-bottom: 0;
+          &:hover {
+            border-color: blueviolet;
+          }
+
+          .meaning-title {
+            font-weight: 600;
+          }
+
+          .example-block {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+
+            .example-item {
+              font-weight: 200;
+              margin-left: 16px;
+              margin-top: 0;
+              margin-bottom: 0;
+            }
           }
         }
       }
@@ -230,6 +236,7 @@
 
 .lookup-btn {
   display: flex;
+  width: auto;
   padding: 4px;
   background-color: #fff;
   box-shadow: 0 4px 6px -1px rgba(147, 51, 234),

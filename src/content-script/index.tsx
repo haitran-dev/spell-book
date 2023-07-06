@@ -49,7 +49,7 @@ const initApp = (data: object) => {
   root.render(
     <WidgetProvider>
       <App
-        data={data}
+        results={data}
         onGoBack={() => handlePopTab(root, container)}
         onClose={() => handleClear(container)}
         isFirstChild={currentWords.length === 1}

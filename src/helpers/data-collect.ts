@@ -5,95 +5,101 @@ export const extractData = (sourceContent: string, word: string) => {
 
   if (!dom) return null;
 
-  const meaningScopeEle = dom.querySelector(".entry-body__el");
-  if (!meaningScopeEle) return null;
+  const meaningScopeElements = dom.querySelectorAll(".entry-body__el");
+  if (!meaningScopeElements) return null;
 
-  const title = meaningScopeEle.querySelector(".di-title")?.textContent ?? word;
-  const type = meaningScopeEle.querySelector(".pos.dpos")?.textContent;
+  const results = [];
 
-  // meaning
-  const meanings = [];
-  const meaningBlocks = meaningScopeEle.querySelectorAll("[data-wl-senseid]");
+  meaningScopeElements.forEach((meaningScopeEle) => {
+    const title =
+      meaningScopeEle.querySelector(".di-title")?.textContent ?? word;
+    const type = meaningScopeEle.querySelector(".pos.dpos")?.textContent;
 
-  meaningBlocks.forEach((block) => {
-    const meaningEle = block.querySelector(".ddef_d");
+    // meaning
+    const meanings = [];
+    const meaningBlocks = meaningScopeEle.querySelectorAll("[data-wl-senseid]");
 
-    if (meaningEle) {
-      let examples = [];
+    meaningBlocks.forEach((block) => {
+      const meaningEle = block.querySelector(".ddef_d");
 
-      const meaningText = meaningEle.textContent;
+      if (meaningEle) {
+        let examples = [];
 
-      block.querySelectorAll(".eg.deg").forEach((example) => {
-        example && examples.push(example.textContent);
-      });
+        const meaningText = meaningEle.textContent;
 
-      meanings.push({
-        text: meaningText,
-        examples,
+        block.querySelectorAll(".eg.deg").forEach((example) => {
+          example && examples.push(example.textContent);
+        });
+
+        meanings.push({
+          text: meaningText,
+          examples,
+        });
+      }
+    });
+
+    // audio
+    let audios = [];
+    const audioUSEle = meaningScopeEle.querySelector("#audio2");
+    if (audioUSEle) {
+      audios.push({
+        type: "us",
+        sources: [
+          {
+            type: "audio/mpeg",
+            url:
+              CAMBRIDGE_DOMAIN +
+              audioUSEle
+                .querySelector('[type="audio/mpeg"]')
+                ?.getAttribute("src"),
+          },
+          {
+            type: "audio/ogg",
+            url:
+              CAMBRIDGE_DOMAIN +
+              audioUSEle
+                .querySelector('[type="audio/ogg"]')
+                ?.getAttribute("src"),
+          },
+        ],
+        pronunciation: dom
+          .querySelector(".us.dpron-i")
+          ?.querySelector(".pron.dpron").textContent,
       });
     }
+
+    const audioUKEle = meaningScopeEle.querySelector("#audio1");
+    if (audioUKEle) {
+      audios.push({
+        type: "uk",
+        sources: [
+          {
+            type: "audio/mpeg",
+            url:
+              CAMBRIDGE_DOMAIN +
+              audioUKEle
+                .querySelector('[type="audio/mpeg"]')
+                ?.getAttribute("src"),
+          },
+          {
+            type: "audio/ogg",
+            url:
+              CAMBRIDGE_DOMAIN +
+              audioUKEle
+                .querySelector('[type="audio/ogg"]')
+                ?.getAttribute("src"),
+          },
+        ],
+        pronunciation: dom
+          .querySelector(".uk.dpron-i")
+          ?.querySelector(".pron.dpron").textContent,
+      });
+    }
+
+    results.push({ meanings, type, audios, title });
   });
 
-  // audio
-  let audios = [];
-  const audioUSEle = meaningScopeEle.querySelector("#audio2");
-  if (audioUSEle) {
-    audios.push({
-      type: "us",
-      sources: [
-        {
-          type: "audio/mpeg",
-          url:
-            CAMBRIDGE_DOMAIN +
-            audioUSEle
-              .querySelector('[type="audio/mpeg"]')
-              ?.getAttribute("src"),
-        },
-        {
-          type: "audio/ogg",
-          url:
-            CAMBRIDGE_DOMAIN +
-            audioUSEle.querySelector('[type="audio/ogg"]')?.getAttribute("src"),
-        },
-      ],
-      pronunciation: dom
-        .querySelector(".us.dpron-i")
-        ?.querySelector(".pron.dpron").textContent,
-    });
-  }
-
-  const audioUKEle = meaningScopeEle.querySelector("#audio1");
-  if (audioUKEle) {
-    audios.push({
-      type: "uk",
-      sources: [
-        {
-          type: "audio/mpeg",
-          url:
-            CAMBRIDGE_DOMAIN +
-            audioUKEle
-              .querySelector('[type="audio/mpeg"]')
-              ?.getAttribute("src"),
-        },
-        {
-          type: "audio/ogg",
-          url:
-            CAMBRIDGE_DOMAIN +
-            audioUKEle.querySelector('[type="audio/ogg"]')?.getAttribute("src"),
-        },
-      ],
-      pronunciation: dom
-        .querySelector(".uk.dpron-i")
-        ?.querySelector(".pron.dpron").textContent,
-    });
-  }
-
-  return {
-    title,
-    type,
-    audios,
-    meanings,
-  };
+  return results;
 };
 
 export const extractImages = (sourceImages: string) => {

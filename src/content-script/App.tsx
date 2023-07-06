@@ -27,22 +27,20 @@ const transitionStyles = {
   entered: { transform: "translateX(0)" },
 };
 
-const App = ({ data, onClose, onGoBack, isFirstChild }) => {
+type BlockProps = {
+  data?: any;
+};
+
+const Block: React.FC<BlockProps> = ({ data }) => {
   const audiosRef = React.useRef<Map<string, HTMLAudioElement>>(null);
-  const [isOpen, setOpen] = React.useState<boolean>(false);
-  const { type, audios, meanings } = data;
-  const widgets = React.useContext(WidgetContext);
+  const { title, type, audios, meanings } = data;
+  const widgets = React.useContext(WidgetContext) || [];
   const rootFontSize = widgets.find(
     (widget) => widget.name === settingTypes.FONT_SIZE,
   ).value;
   const audioVolume = widgets.find(
     (widget) => widget.name === settingTypes.VOLUME,
   ).value;
-
-  React.useEffect(() => {
-    // trigger animation
-    setOpen(true);
-  }, []);
 
   React.useEffect(() => {
     // change sound volume
@@ -61,15 +59,6 @@ const App = ({ data, onClose, onGoBack, isFirstChild }) => {
     return audiosRef.current;
   };
 
-  const handleCloseTab = () => {
-    onGoBack();
-    setOpen(false);
-  };
-
-  const handleCloseAllTabs = () => {
-    onClose();
-  };
-
   const handlePlayAudio = (type: string) => {
     const audioEle = audiosRef.current.get(type);
 
@@ -78,172 +67,98 @@ const App = ({ data, onClose, onGoBack, isFirstChild }) => {
   };
 
   return (
-    <Transition in={isOpen} timeout={DURATION}>
-      {(state) => (
-        <div
-          className="aside-container"
+    <>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "4px",
+          marginBottom: "4px",
+        }}
+      >
+        <p
           style={{
-            ...defaultStyle,
-            ...transitionStyles[state],
+            fontSize: `${0.875 * +rootFontSize}px`,
+            fontWeight: "600",
+            fontStyle: "italic",
           }}
         >
-          {!isFirstChild ? (
-            <Icon
-              onClick={handleCloseTab}
-              className="close-icon"
-              svg={ArrowLeftSVG}
-              title="Back"
-            />
-          ) : null}
-          <div className="setting-icon-wrapper">
-            <Popover>
-              <Popover.Trigger>
-                <Icon
-                  className="setting-icon"
-                  svg={SettingSVG}
-                  title="Settings"
-                />
-              </Popover.Trigger>
-              <Popover.Body>
-                <Settings />
-              </Popover.Body>
-            </Popover>
-            <Icon
-              onClick={handleCloseAllTabs}
-              className="close-all-icon"
-              svg={CloseSVG}
-              title="Close all tabs"
-            />
-          </div>
-          <Tabs defaultLabel="Definition">
-            <Tabs.Labels>
-              <Tabs.Label label="Definition" />
-              <Tabs.Label label="Images" />
-            </Tabs.Labels>
-            <Tabs.Panels>
-              <Tabs.Panel label="Definition">
+          {type}
+        </p>
+        <div
+          style={{
+            display: "flex",
+            gap: "16px",
+          }}
+        >
+          {audios?.map((audio) => {
+            const audioType = audio.type;
+
+            if (!audioType) return null;
+
+            return (
+              <React.Fragment key={audioType}>
                 <div
                   style={{
+                    fontSize: `${rootFontSize}px`,
                     display: "flex",
-                    flexDirection: "column",
                     gap: "4px",
-                    marginBottom: "4px",
+                    alignItems: "center",
                   }}
                 >
-                  <div
-                    style={{
-                      display: "flex",
-                      gap: "4px",
-                      alignItems: "center",
-                    }}
-                  >
-                    <p
-                      style={{
-                        fontSize: `${1.875 * +rootFontSize}px`,
-                        fontWeight: "600",
-                      }}
-                    >
-                      {data.title}
-                    </p>
-                    <a
-                      href={`${CAMBRIDGE_DOMAIN}/dictionary/english/${data.title}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Icon svg={LinkSVG} svgW={16} title="Original source" />
-                    </a>
-                  </div>
                   <p
                     style={{
-                      fontSize: `${0.875 * +rootFontSize}px`,
-                      fontWeight: "600",
-                      fontStyle: "italic",
+                      fontWeight: 600,
+                      textTransform: "uppercase",
+                      lineHeight: 1,
                     }}
                   >
-                    {type}
+                    {audioType}
                   </p>
-                  <div
-                    style={{
-                      display: "flex",
-                      gap: "16px",
-                    }}
-                  >
-                    {audios?.map((audio) => {
-                      const audioType = audio.type;
-
-                      if (!audioType) return null;
-
-                      return (
-                        <React.Fragment key={audioType}>
-                          <div
-                            style={{
-                              fontSize: `${rootFontSize}px`,
-                              display: "flex",
-                              gap: "4px",
-                              alignItems: "center",
-                            }}
-                          >
-                            <p
-                              style={{
-                                fontWeight: 600,
-                                textTransform: "uppercase",
-                                lineHeight: 1,
-                              }}
-                            >
-                              {audioType}
-                            </p>
-                            <Icon
-                              onClick={() => handlePlayAudio(audioType)}
-                              svg={VolumeSVG}
-                              title={`${audioType.toUpperCase()} Voice`}
-                            />
-                            <span>{audio.pronunciation}</span>
-                          </div>
-                          <audio
-                            ref={(node) => {
-                              const audiosMap = getAudioMap();
-                              if (node) {
-                                audiosMap.set(audioType, node);
-                              } else {
-                                audiosMap.delete(audioType);
-                              }
-                            }}
-                          >
-                            {audio.sources?.map((source) => (
-                              <source
-                                key={source.type}
-                                type={source.type}
-                                src={source.url}
-                              />
-                            ))}
-                            audio {audioType}
-                          </audio>
-                        </React.Fragment>
-                      );
-                    })}
-                  </div>
+                  <Icon
+                    onClick={() => handlePlayAudio(audioType)}
+                    svg={VolumeSVG}
+                    title={`${audioType.toUpperCase()} Voice`}
+                  />
+                  <span>{audio.pronunciation}</span>
                 </div>
-                <div className="meaning-block">
-                  {meanings.map((meaning, index) => {
-                    const id = crypto.randomUUID();
-                    return (
-                      <MeaningBlock
-                        key={id}
-                        meaning={meaning}
-                        rootFontSize={rootFontSize}
-                      />
-                    );
-                  })}
-                </div>
-              </Tabs.Panel>
-              <Tabs.Panel label="Images">
-                <Images word={data.title} />
-              </Tabs.Panel>
-            </Tabs.Panels>
-          </Tabs>
+                <audio
+                  ref={(node) => {
+                    const audiosMap = getAudioMap();
+                    if (node) {
+                      audiosMap.set(audioType, node);
+                    } else {
+                      audiosMap.delete(audioType);
+                    }
+                  }}
+                >
+                  {audio.sources?.map((source) => (
+                    <source
+                      key={source.type}
+                      type={source.type}
+                      src={source.url}
+                    />
+                  ))}
+                  audio {audioType}
+                </audio>
+              </React.Fragment>
+            );
+          })}
         </div>
-      )}
-    </Transition>
+      </div>
+      <div className="meaning-block">
+        {meanings.map((meaning, index) => {
+          const id = crypto.randomUUID();
+          return (
+            <MeaningBlock
+              key={id}
+              meaning={meaning}
+              rootFontSize={rootFontSize}
+            />
+          );
+        })}
+      </div>
+    </>
   );
 };
 
@@ -285,6 +200,116 @@ const MeaningBlock: React.FC<MeaningBlockProps> = ({
         ))}
       </div>
     </div>
+  );
+};
+
+const App = ({ results, onGoBack, onClose, isFirstChild }) => {
+  console.log({ results });
+  const [isOpen, setOpen] = React.useState<boolean>(false);
+  const widgets = React.useContext(WidgetContext) || [];
+  const rootFontSize = widgets.find(
+    (widget) => widget.name === settingTypes.FONT_SIZE,
+  ).value;
+
+  const word = results[0].title;
+
+  React.useEffect(() => {
+    // trigger animation
+    setOpen(true);
+  }, []);
+
+  const handleCloseTab = () => {
+    onGoBack();
+    setOpen(false);
+  };
+
+  const handleCloseAllTabs = () => {
+    onClose();
+  };
+
+  return (
+    <Transition in={isOpen} timeout={DURATION}>
+      {(state) => (
+        <div
+          className="aside-container"
+          style={{
+            ...defaultStyle,
+            ...transitionStyles[state],
+          }}
+        >
+          {!isFirstChild ? (
+            <Icon
+              onClick={handleCloseTab}
+              className="close-icon"
+              svg={ArrowLeftSVG}
+              title="Back"
+            />
+          ) : null}
+          <div className="setting-icon-wrapper">
+            <Popover>
+              <Popover.Trigger>
+                <Icon
+                  className="setting-icon"
+                  svg={SettingSVG}
+                  title="Settings"
+                />
+              </Popover.Trigger>
+              <Popover.Body>
+                <Settings />
+              </Popover.Body>
+            </Popover>
+            <Icon
+              onClick={handleCloseAllTabs}
+              className="close-all-icon"
+              svg={CloseSVG}
+              title="Close all tabs"
+            />
+          </div>
+
+          <Tabs defaultLabel="Definition">
+            <Tabs.Labels>
+              <Tabs.Label label="Definition" />
+              <Tabs.Label label="Images" />
+            </Tabs.Labels>
+            <Tabs.Panels>
+              <Tabs.Panel label="Definition">
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "4px",
+                    alignItems: "center",
+                  }}
+                >
+                  <p
+                    style={{
+                      fontSize: `${1.875 * +rootFontSize}px`,
+                      fontWeight: "600",
+                    }}
+                  >
+                    {word}
+                  </p>
+                  <a
+                    href={`${CAMBRIDGE_DOMAIN}/dictionary/english/${word}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Icon svg={LinkSVG} svgW={16} title="Original source" />
+                  </a>
+                </div>
+                <div className="meaning-container">
+                  {results.map((item, index) => (
+                    <Block key={index} data={item} />
+                  ))}
+                </div>
+              </Tabs.Panel>
+              <Tabs.Panel label="Images">
+                <Images word={word} />
+              </Tabs.Panel>
+            </Tabs.Panels>
+          </Tabs>
+        </div>
+      )}
+    </Transition>
   );
 };
 
