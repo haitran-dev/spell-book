@@ -22,9 +22,9 @@ npm install
 
 ## How To Contribute
 
-- [Open an issue] if you've encountered a bug or got a feature request.
+- [Open an issue](issues) if you've encountered a bug or got a feature request.
 
-- Create a [pull request] to add new features/ fix bugs.
+- Create a [pull request](pulls) to add new features/ fix bugs.
 
 ### About the tech stack
 - React 18 & Webpack
