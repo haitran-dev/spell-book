@@ -20,6 +20,8 @@ npm install
 npm run dev
 ```
 
+- Load unpacked your dist folder in manage extensions on your Chrome
+
 ## How To Contribute
 
 - [Open an issue](https://github.com/haitran-dev/spell-book/issues) if you've encountered a bug or got a feature request.
