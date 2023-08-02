@@ -228,6 +228,7 @@
 #spell-book-ext-selection-point {
   position: fixed;
   z-index: 2147483647;
+  width: auto;
 
   & * {
     line-height: 1.25;
