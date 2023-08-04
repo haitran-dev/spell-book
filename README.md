@@ -36,12 +36,12 @@ Spell Book is a companion that will leverage your English understanding with the
 - Clone the repo
 
 - Install packages
-```bash
+```
 npm install
 ```
 
 - Run local extension
-```bash
+```
 npm run dev
 ```
 
@@ -49,15 +49,15 @@ npm run dev
 
 ## How To Contribute
 
-- [Open an issue] if you've encountered a bug or got a feature request.
+- [Open an issue](https://github.com/haitran-dev/spell-book/issues) if you've encountered a bug or got a feature request.
 
-- Create a [pull request] to add new features/ fix bugs.
+- Create a [pull request](https://github.com/haitran-dev/spell-book/pulls) to add new features/ fix bugs.
 
 ### About the tech stack
 - React 18 & Webpack
 - Typescript and Javascript
-- Styled component
+- Styled component && Scss
 
 ## License
 
-_Spell Book!_ is open-source under the GNU Affero General Public License Version 3 (AGPLv3) or any later version.
+_Spell Book_ is open-source under the MIT License.
