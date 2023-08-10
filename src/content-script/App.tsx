@@ -204,7 +204,6 @@ const MeaningBlock: React.FC<MeaningBlockProps> = ({
 };
 
 const App = ({ results, onGoBack, onClose, isFirstChild }) => {
-  console.log({ results });
   const [isOpen, setOpen] = React.useState<boolean>(false);
   const widgets = React.useContext(WidgetContext) || [];
   const rootFontSize = widgets.find(

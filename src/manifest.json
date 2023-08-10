@@ -3,7 +3,7 @@
 	"author": "Hai Tran",
 	"name": "Spell Book (Visual English dictionary)",
 	"description": "Powerful dictionary tool helps learn English",
-	"version": "0.0.2.6",
+	"version": "0.0.2.8",
 	"icons": {
 		"16": "icon.png",
 		"48": "icon.png",

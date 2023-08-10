@@ -26,13 +26,18 @@ const handlePopTab = (root: ReactDOM.Root, container) => {
 
 const handleClear = (node) => {
   currentWords = [];
+
   node.style.transform = "translateX(101%)";
   setTimeout(() => {
     node.replaceChildren();
   }, 300);
 };
 
-const initApp = (data: object) => {
+const initApp = (data: object[], word: string) => {
+  if (data.length === 0) return;
+
+  currentWords.push(word);
+
   let container: HTMLDivElement = document.querySelector(`#${ROOT_ID}`);
 
   if (!container) {
@@ -71,9 +76,8 @@ chrome.runtime.onMessage.addListener((request) => {
       currentWords[currentWords.length - 1] === word
     )
       return;
-    currentWords.push(word);
 
-    initApp(textData);
+    initApp(textData, word);
   }
 });
 
